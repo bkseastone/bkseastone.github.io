@@ -4,7 +4,12 @@
 
     <sitemap>
         <loc>https://bkseastone.github.io/post-sitemap.xml</loc>
-        <lastmod>2020-05-21T15:08:20.269Z</lastmod>
+        <lastmod>2020-05-22T16:46:30.056Z</lastmod>
+    </sitemap>
+
+    <sitemap>
+        <loc>https://bkseastone.github.io/page-sitemap.xml</loc>
+        <lastmod>2020-05-22T10:16:55.337Z</lastmod>
     </sitemap>
 
 </sitemapindex>

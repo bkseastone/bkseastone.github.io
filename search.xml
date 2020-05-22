@@ -4,13 +4,25 @@
   
     
     <entry>
-      <title>Hello World</title>
-      <link href="/hello-world/"/>
-      <url>/hello-world/</url>
+      <title>机器学习:分类模型的评价指标</title>
+      <link href="/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0_%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/"/>
+      <url>/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0_%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/</url>
       
-        <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
+        <content type="html"><![CDATA[<h2 id="常识中的指标"><a href="#常识中的指标" class="headerlink" title="常识中的指标"></a>常识中的指标</h2><h3 id="错误率-err"><a href="#错误率-err" class="headerlink" title="错误率(err)"></a><strong>错误率</strong>(err)</h3><p>分类错误的样本数占样本总数的比例。<br>$$<br>err = 1-acc<br>$$</p><h3 id="精度-acc"><a href="#精度-acc" class="headerlink" title="精度(acc)"></a><strong>精度</strong>(acc)</h3><p>分类正确的样本数占样本总数的比例，用于衡量分类器正确的识别新样本的能力。<br>$$<br>acc = (TP+TN)/(TP+TN+FP+FN)<br>$$</p><h2 id="常见指标"><a href="#常见指标" class="headerlink" title="常见指标"></a>常见指标</h2><h3 id="查准率-Precision"><a href="#查准率-Precision" class="headerlink" title="查准率(Precision)"></a><strong>查准率</strong>(Precision)</h3><p>衡量分类器不将负样本错误地识别为正样本的能力。<br>$$<br>P = TP / (TP+FP)<br>$$</p><h3 id="查全率、召回率-Recall"><a href="#查全率、召回率-Recall" class="headerlink" title="查全率、召回率(Recall)"></a><strong>查全率、召回率</strong>(Recall)</h3><p>衡量分类器查找所有正样本的能力。<br>$$<br>R = TP / (TP + FN)<br>$$<br>对于多类别，模型的精度是指准确率的微平均(micro-avg)，模型的查准率是指准确率的宏平均(macro-avg)。若样本分布为自然分布，那么微平均衡量的是模型当下的表现；而宏平均衡量的时模型未来的表现（考虑到自然分布可能会发生变化），属于风险预估。宏平均指标相对微平均指标而言受小类别的影响更大。<a href="https://blog.csdn.net/xiaqian0917/article/details/53445071" target="_blank" rel="external nofollow noopener noreferrer">【ref】</a></p><p>但当正负样本不平衡时，准确率或召回率这一评价指标将会有很大缺陷。比如训练一个用于识别癌症的模型，混淆矩阵为：</p><table><thead><tr><th align="center"></th><th align="right">normal</th><th align="right">cancer</th></tr></thead><tbody><tr><td align="center">normal</td><td align="right">98</td><td align="right">0</td></tr><tr><td align="center">cancer</td><td align="right">1</td><td align="right">1</td></tr></tbody></table><p>那么：<br>$$<br>P_{cancer} = 1/(1+0) = 1, \<br>R_{cancer} = 1/(1+1) = 0.5<br>$$</p><h3 id="F值"><a href="#F值" class="headerlink" title="F值"></a><strong>F值</strong></h3><p>故，当正负样本均衡时既不能单独看查准率也不能单独地看查全率，由此引入F值：<br>$$<br>F_{\alpha} = \frac{(\alpha^2 +1)PR}{\alpha^2 P + R}, \alpha &gt; 0.<br>$$<br>$\alpha$ 用于<a href="http://www.dcs.gla.ac.uk/Keith/Preface.html" target="_blank" rel="external nofollow noopener noreferrer">衡量查全率对查准率的相对重要性</a>，$\alpha &gt; 1$ 更看重查全率，反之更看重查准率，标准的$F_1$意味查全查准重要性等同。故此时可用$F_1$这一评价指标来评价该模型对癌症这一类别的识别能力：<br>$$<br>F1_{cancer} = 2 * (1 * 0.5)/(1+0.5) = 0.667<br>$$</p><h2 id="进阶指标"><a href="#进阶指标" class="headerlink" title="进阶指标"></a>进阶指标</h2><h3 id="ROC-P-R"><a href="#ROC-P-R" class="headerlink" title="ROC, P-R"></a>ROC, P-R</h3><p>P-R曲线、ROC曲线定义如下：</p><p><img src="https://bkseastone.github.io/images/PR_ROC.jpg" alt="PR_ROC"></p><h3 id="AP-mAP"><a href="#AP-mAP" class="headerlink" title="AP, mAP"></a>AP, mAP</h3><p>P-R曲线下的面积为AP，即在不同召回率下准确率的均值，而mAP即为各类AP的平均。</p><h3 id="AUC"><a href="#AUC" class="headerlink" title="AUC"></a>AUC</h3><p>ROC曲线下的面积为AUC（1-AUC也可作loss函数），计算方法如下：</p><p><img src="https://bkseastone.github.io/images/AUC.jpg" alt="AUC"></p><p>可如此解释：对于随机给定的一个正样本和一个负样本，分类器输出正样本为正的那个概率值比输出负样本为正的那个概率值要大的可能性；或是意为分类器对于随机给定的正样本的打分高于随机给定的负样本的概率，即正例得分大于负例得分的概率。</p>]]></content>
       
       
+      <categories>
+          
+          <category> 机器学习 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 机器学习 </tag>
+            
+        </tags>
       
     </entry>
     
